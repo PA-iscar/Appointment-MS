@@ -14,32 +14,35 @@ const controller = crudController(Vehicle);
 
 router.post("/:id", async (req, res) => {
   const lot = await Lot.findById(req.params.id);
+
   const vtype = req.body.vehicleType;
   const validTypes = ["twoWheeler", "hatchback", "suv"];
-  if (!validTypes.includes(vtype)) {
+
+  //? Validate Vehicle type
+  if (!validTypes.includes(vtype))
     res.status(400).json("Vehicle type not supported");
-  } else {
+  else {
+    //? Validate Lot availaibility
     if (!lot) res.status(400).json("Invalid Lot");
     else {
       let selectedType = lot[vtype];
-
+      //? Validate Lot space
       if (selectedType.vehicles.length >= selectedType.capacity)
         res.status(400).json("Lot is full!");
       else {
         let vehicle = await Vehicle.findOne({ number: req.body.number });
 
-        if (!vehicle) {
-          vehicle = await Vehicle.create({
-            ...req.body,
-            lotID: req.params.id,
-          });
-        }
-        if (selectedType.vehicles.includes(vehicle._id)) {
+        //? Check if Vehicle Exists create new if not
+        if (!vehicle)
+          vehicle = await Vehicle.create({ ...req.body, lotID: req.params.id });
+
+        //? Check if Vehicle Already in Lot
+        if (selectedType.vehicles.includes(vehicle._id))
           res.status(400).json("Vehicle already in Lot!");
-        } else {
+        else {
           const history = await History.create({
             vehicleID: vehicle._id,
-            lotID: vehicle.lotID,
+            lotID: lot._id,
             area:
               vehicle.vehicleType == "twoWheeler"
                 ? "Two Wheeler area"
@@ -47,12 +50,14 @@ router.post("/:id", async (req, res) => {
                 ? "SUV area"
                 : "Hatchback area",
           });
+          //? Add history to Vehicle
           vehicle.history = [...vehicle.history, history._id];
           const updatedVehicle = await Vehicle.findByIdAndUpdate(
             vehicle._id,
             vehicle,
             { new: true }
           );
+          //? Add Vehicle to Lot
           selectedType.vehicles = [...selectedType.vehicles, vehicle._id];
           const updatedLot = await Lot.findByIdAndUpdate(lot._id, lot, {
             new: true,
@@ -68,21 +73,25 @@ router.post("/:id", async (req, res) => {
 
 router.patch("/:id", async (req, res) => {
   const lot = await Lot.findById(req.params.id);
+  //? Check if lot exists
   if (!lot) res.status(400).json("Invalid Lot");
   else {
     const vehicle = await Vehicle.findOne({ number: req.body.number });
+    //? Check if Vehicle is in Lot
     if (!vehicle) res.status(400).json("Vehicle not in Lot!");
     else {
       const vtype = vehicle.vehicleType;
       const validTypes = ["twoWheeler", "hatchback", "suv"];
+      //? Check if Vehicle type is valid
       if (!validTypes.includes(vtype)) {
         res.status(400).json("Vehicle type not supported");
       } else {
         let selectedType = lot[vehicle.vehicleType];
-
+        //? Check if Vehicle in Lot
         if (!selectedType.vehicles.includes(vehicle._id))
           res.status(400).json("Vehicle not in Lot!");
         else {
+          //? Update history
           const history = await History.findOne({
             vehicleID: vehicle._id,
             exit: null,
@@ -107,7 +116,7 @@ router.patch("/:id", async (req, res) => {
           const updatedLot = await Lot.findByIdAndUpdate(lot._id, lot, {
             new: true,
           });
-
+          //? Return amount to be paid
           res.status(201).json(updatedHistory.amountPaid);
         }
       }
@@ -118,6 +127,7 @@ router.patch("/:id", async (req, res) => {
 //* Get Vehicle History by Vehicle Number
 
 router.get("/:num", async (req, res) => {
+  //? Find parking history and select data
   const parkingHistory = await Vehicle.findOne({
     number: req.params.num,
   })
