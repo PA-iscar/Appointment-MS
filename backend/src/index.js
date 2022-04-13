@@ -13,8 +13,8 @@ app.use(express.json());
 app.use(cors());
 
 app.use("/lot", lotController);
-app.use("vehicle", vehicleController);
-app.use("history", historyController);
+app.use("/vehicle", vehicleController);
+app.use("/history", historyController);
 
 app.listen(PORT, async () => {
   try {

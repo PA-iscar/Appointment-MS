@@ -4,14 +4,11 @@ const lotSchema = new mongoose.Schema(
   {
     name: { type: String, required: true },
 
-    twoWheller: {
+    twoWheeler: {
       vehicles: [
         {
-          vehicleID: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "vehicle",
-            unique: true,
-          },
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "vehicle",
         },
       ],
       capacity: { type: Number, required: true },
@@ -19,11 +16,8 @@ const lotSchema = new mongoose.Schema(
     hatchback: {
       vehicles: [
         {
-          vehicleID: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "vehicle",
-            unique: true,
-          },
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "vehicle",
         },
       ],
       capacity: { type: Number, required: true },
@@ -31,11 +25,8 @@ const lotSchema = new mongoose.Schema(
     suv: {
       vehicles: [
         {
-          vehicleID: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "vehicle",
-            unique: true,
-          },
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "vehicle",
         },
       ],
       capacity: { type: Number, required: true },

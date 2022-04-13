@@ -5,12 +5,15 @@ const historySchema = new mongoose.Schema(
     vehicleID: { type: mongoose.Schema.Types.ObjectId, ref: "vehicle" },
     lotID: { type: mongoose.Schema.Types.ObjectId, ref: "lot" },
     area: { type: String, required: true },
-    entry: { type: String},
-    exit: { type: String },
-    duration: { type: String},
-    amountPaid: { type: Number},
+    entry: { type: Date, default: Date.now },
+    exit: { type: Date, default: null },
+    duration: { type: String },
+    amountPaid: { type: Number, default: 0 },
   },
-  { versionKey: false, timestamps: true }
+  {
+    versionKey: false,
+    timestamps: true,
+  }
 );
 
 const History = mongoose.model("history", historySchema);
