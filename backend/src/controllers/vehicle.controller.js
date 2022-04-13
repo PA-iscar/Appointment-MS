@@ -99,7 +99,7 @@ router.patch("/:id", async (req, res) => {
           history.exit = Date.now();
           const duration = history.exit - history.entry;
           history.duration = millisToTime(duration);
-          history.amountPaid = calcAmount(duration / (1000 * 60 * 60));
+          history.amountPaid = calcAmount(duration / (1000 * 60 * 60),vtype);
 
           const updatedHistory = await History.findOneAndUpdate(
             {
