@@ -115,6 +115,22 @@ router.patch("/:id", async (req, res) => {
   }
 });
 
+//* Get Vehicle History by Vehicle Number
+
+router.get("/:num", async (req, res) => {
+  const parkingHistory = await Vehicle.findOne({
+    number: req.params.num,
+  })
+    .select({ _id: 0, history: 1 })
+    .populate({
+      path: "history",
+      select: { area: 1, _id: 0, duration: 1, amountPaid: 1 },
+      populate: { path: "lotID", select: { name: 1, _id: 0 } },
+    });
+
+  res.status(200).json(parkingHistory);
+});
+
 // //* Read Many
 // router.get("/", controller.getAll);
 
