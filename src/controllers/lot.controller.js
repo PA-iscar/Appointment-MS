@@ -10,7 +10,9 @@ const controller = crudController(Lot);
 router.post("/", controller.post);
 
 //* Read Many
-router.get("/", controller.getAll);
+router.get("/", (req, res) => {
+  res.status(200).json("reached Here");
+});
 
 //* Read One
 router.get("/:id", controller.getOne);
