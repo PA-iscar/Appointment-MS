@@ -6,7 +6,7 @@ const lotController = require("./controllers/lot.controller");
 const vehicleController = require("./controllers/vehicle.controller");
 // const historyController = require("./controllers/history.controller");
 
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8000;
 
 const app = express();
 app.use(express.json());

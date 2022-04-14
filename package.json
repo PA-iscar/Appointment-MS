@@ -9,7 +9,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon src/index.js"
+    "test": "nodemon src/index.js",
+    "start": "nodemon src/index.js"
   },
   "author": "",
   "license": "ISC",
