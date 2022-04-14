@@ -6,7 +6,6 @@ const createOne = (model) => async (req, res) => {
 
 //* Read Many
 const getAll = (model) => async (req, res) => {
-  console.log("Debug: Get all");
   const items = await model.find();
   res.status(200).json(items);
 };
