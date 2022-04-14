@@ -2,7 +2,7 @@
 
 const calcAmount = (duration, vtype) => {
   const offSet =
-    vtype === "twoWheeler" ? 1 : vehicle.vehicleType == "suv" ? 2 : 3;
+    vtype === "twoWheeler" ? 1 : vtype == "suv" ? 2 : 3;
   if (duration < 2) return 20 * offSet;
   if (duration < 4) return 40 * offSet;
   if (duration < 6) return 60 * offSet;

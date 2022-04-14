@@ -26,5 +26,4 @@ const millisToTime = (millis) => {
   return res;
 };
 
-console.log(millisToTime(00000100));
-// module.exports = millisToTime;
+module.exports = millisToTime;
