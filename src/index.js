@@ -12,8 +12,8 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-app.get("/", (req, res) => res.status(200).json("Connection Success"));
-
+app.get("/", (req, res) => res.status(200).json("Loading Success"));
+app.get("/check", (req, res)=> res.status(200).json("Connection success"))
 app.use("/lot", lotController);
 app.use("/vehicle", vehicleController);
 // app.use("/history", historyController);
